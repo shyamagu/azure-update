@@ -1,6 +1,6 @@
 # Azure Update Deck
 
-このプロジェクトは、Azureの更新情報を取得して処理し、Markdown形式のプレゼンテーションデッキを生成する2つのPythonスクリプトで構成されています。
+このプロジェクトは、Azureの更新情報を取得して処理し、PowerPoint形式のプレゼンテーションデッキを生成する2つのPythonスクリプトで構成されています。
 
 ## 前提条件
 
@@ -29,11 +29,11 @@
 
 4. プロジェクトのルートディレクトリに `.env` ファイルを作成し、Azure OpenAIの認証情報を追加します:
     ```env
-    AOAI_GO_ENDPOINT=your_azure_openai_endpoint
-    AOAI_GO_API_KEY=your_azure_openai_api_key
-    AOAI_GO_MODEL=your_azure_openai_model
+    AZURE_OPENAI_ENDPOINT=your_azure_openai_endpoint
+    AZURE_OPENAI_API_KEY=your_azure_openai_api_key
+    MODEL_DEPLOYMENT_NAME=your_azure_openai_model
     ```
-    動作検証にはgpt-4oを利用しました。
+    ※動作検証にはgpt-4oを利用しました。
 
 ## 使用方法
 
@@ -50,19 +50,19 @@ python 1_get_azure_update.py 2025-01-01
 
 ### ステップ2: プレゼンテーションデッキの生成
 
-`2_make_jp_update_marp.py` スクリプトを実行して、取得した更新情報を生成AIをつかって処理し、Markdown形式のプレゼンテーションデッキを生成します。
+`2_make_jp_update_pptx.py` スクリプトを実行して、取得した更新情報を生成AIをつかって処理し、PowerPoint形式のプレゼンテーションデッキを生成します。
 
 ```sh
-python 2_make_jp_update_marp.py
+python 2_make_jp_update_pptx.py
 ```
 
 デフォルトでは、最新の `azure_update*.md` ファイルを使用します。特定のファイルを指定することもできます:
 
 ```sh
-python 2_make_jp_update_marp.py azure_update_20250101_20250122.md
+python 2_make_jp_update_pptx.py azure_update_20250101_20250122.md
 ```
 
-出力は `marp_azure_update_*.md` ファイルとなり、Marpを使用してプレゼンテーションを作成できます。
+出力は `pptx_azure_update_*.pptx` ファイルとなります。
 
 ## ライセンス
 

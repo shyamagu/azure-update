@@ -3,3 +3,5 @@ beautifulsoup4
 python-dateutil
 python-dotenv
 openai
+python-pptx
+tiktoken

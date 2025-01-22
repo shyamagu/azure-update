@@ -1,4 +1,6 @@
+__pycache__
 .venv
 .env
 azure*.md
 marp*.md
+pptx*.pptx

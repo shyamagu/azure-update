@@ -16,7 +16,7 @@ def main():
         print("エラー: 日付の形式が正しくありません。形式: YYYY-MM-DD")  
         return  
 
-    url = "https://www.microsoft.com/releasecommunications/api/v2/azure?$count=true&includeFacets=true&top=30&skip=0&orderby=modified%20desc"  
+    url = "https://www.microsoft.com/releasecommunications/api/v2/azure?$count=true&includeFacets=true&top=50&skip=0&orderby=modified%20desc"  
     headers = {  
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',  
         'Accept': 'application/json, text/plain, */*',  
