@@ -1,5 +1,6 @@
 import os  
 import sys  
+import time
 from openai import AzureOpenAI  
 from dotenv import load_dotenv, find_dotenv  
 _ = load_dotenv(find_dotenv())  
@@ -88,9 +89,17 @@ def main():
     prs.slide_width = Inches(13.333333)  # 16:9の幅（13.333インチ）  
     prs.slide_height = Inches(7.5)       # 16:9の高さ（7.5インチ）  
   
+    start_time = time.time()
     for i, slide_text in enumerate(slides, 1):  
         user_prompt = slide_text.strip()
-        print(f"Processing slide {i}/{total_slides}...")
+        if i == 1:
+            print(f"Processing slide {i}/{total_slides}...")
+        else:
+            elapsed_time = time.time() - start_time
+            avg_time_per_slide = elapsed_time / (i - 1)
+            remaining_slides = total_slides - i + 1
+            eta_seconds = avg_time_per_slide * remaining_slides
+            print(f"Processing slide {i}/{total_slides}... (avg: {avg_time_per_slide:.1f}s/slide, ETA: {eta_seconds:.1f}s)")
         # OpenAI APIを呼び出して、情報を取得  
         event, input_token, output_token = callGPT(system_prompt, user_prompt)  
   
