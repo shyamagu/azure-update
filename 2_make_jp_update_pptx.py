@@ -64,7 +64,12 @@ def main():
   
     # update_textは =*50で区切られているため分割してループする  
     slides = update_text.split("="*50)  
-  
+    
+    # Filter out empty slides and count total
+    slides = [s for s in slides if s.strip()]
+    total_slides = len(slides)
+    print(f"Processing {total_slides} slides...")
+
     system_prompt = """\
 入力された情報はあるAzureの機能更新情報です。この情報を以下のルールで更新して指定されたキーのJSONを回答してください  
   
@@ -83,10 +88,9 @@ def main():
     prs.slide_width = Inches(13.333333)  # 16:9の幅（13.333インチ）  
     prs.slide_height = Inches(7.5)       # 16:9の高さ（7.5インチ）  
   
-    for slide_text in slides:  
-        user_prompt = slide_text.strip()  
-        if not user_prompt:  
-            continue  
+    for i, slide_text in enumerate(slides, 1):  
+        user_prompt = slide_text.strip()
+        print(f"Processing slide {i}/{total_slides}...")
         # OpenAI APIを呼び出して、情報を取得  
         event, input_token, output_token = callGPT(system_prompt, user_prompt)  
   
