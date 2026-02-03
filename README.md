@@ -33,7 +33,9 @@
     AZURE_OPENAI_API_KEY=your_azure_openai_api_key
     MODEL_DEPLOYMENT_NAME=your_azure_openai_model
     ```
-    ※動作検証にはgpt-4oを利用しました。
+    ※動作検証にはgpt-4o,gpt-4.1を利用しました。
+
+    **またAZURE_OPENAI_API_KEYが無い場合はデフォルトのEntraID認証を使います。**
 
 ## 使用方法
 
