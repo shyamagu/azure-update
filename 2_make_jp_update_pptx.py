@@ -1,5 +1,6 @@
 import os  
 import sys  
+import time
 from openai import AzureOpenAI  
 from dotenv import load_dotenv, find_dotenv  
 _ = load_dotenv(find_dotenv())  
@@ -42,6 +43,15 @@ def get_latest_update_file():
         raise FileNotFoundError("No azure_update*.md files found.")  
     latest_file = max(files, key=os.path.getctime)  
     return latest_file  
+
+def print_progress(current, total, start_time):
+    if current == 1:
+        print(f"Processing slide {current}/{total}...")
+    else:
+        elapsed = time.time() - start_time
+        avg = elapsed / (current - 1)
+        eta = avg * (total - current + 1)
+        print(f"Processing slide {current}/{total}... (avg: {avg:.1f}s/slide, ETA: {eta:.1f}s)")
   
 def main():  
     if len(sys.argv) > 1:  
@@ -64,7 +74,12 @@ def main():
   
     # update_textは =*50で区切られているため分割してループする  
     slides = update_text.split("="*50)  
-  
+    
+    # Filter out empty slides and count total
+    slides = [s for s in slides if s.strip()]
+    total_slides = len(slides)
+    print(f"Processing {total_slides} slides...")
+
     system_prompt = """\
 入力された情報はあるAzureの機能更新情報です。この情報を以下のルールで更新して指定されたキーのJSONを回答してください  
   
@@ -83,10 +98,10 @@ def main():
     prs.slide_width = Inches(13.333333)  # 16:9の幅（13.333インチ）  
     prs.slide_height = Inches(7.5)       # 16:9の高さ（7.5インチ）  
   
-    for slide_text in slides:  
-        user_prompt = slide_text.strip()  
-        if not user_prompt:  
-            continue  
+    start_time = time.time()
+    for i, slide_text in enumerate(slides, 1):  
+        user_prompt = slide_text.strip()
+        print_progress(i, total_slides, start_time)
         # OpenAI APIを呼び出して、情報を取得  
         event, input_token, output_token = callGPT(system_prompt, user_prompt)  
   
